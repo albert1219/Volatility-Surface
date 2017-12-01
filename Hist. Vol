@@ -1,0 +1,14 @@
+import numpy as np
+import pandas as pd
+from pandas_datareader import data
+
+KS200 = data.DataReader("KRX:KOSPI200", "google")
+KS200.head()
+
+KS200['Log_Ret'] = np.log(KS200['Close'] / KS200['Close'].shift(1))
+goog['Volatility'] = pd.rolling_std(KS200['Log_Ret'],
+window=252) * np.sqrt(252)
+
+%matplotlib inline
+KS200[['Close', 'Volatility']].plot(subplots=True, color='blue',
+figsize=(8, 6))
